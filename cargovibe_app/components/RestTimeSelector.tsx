@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { cn } from '../utils/cn';
 
 export default function RestTimeSelector() {
   const [restTime, setRestTime] = useState(2);
@@ -17,10 +18,10 @@ export default function RestTimeSelector() {
     }
   };
 
-  const getTimeColor = (hours: number) => {
-    if (hours <= 1) return '#ef4444'; // red for short time
-    if (hours <= 2.5) return '#f59e0b'; // orange for medium time
-    return '#10b981'; // green for long time
+  const getTimeColorHex = (hours: number) => {
+    if (hours <= 1) return '#ef4444';
+    if (hours <= 2.5) return '#f59e0b';
+    return '#10b981';
   };
 
   const quickTimeOptions = [
@@ -36,40 +37,25 @@ export default function RestTimeSelector() {
   ];
 
   return (
-    <View style={{ marginBottom: 16 }}>
-      <View style={{
-        backgroundColor: '#f9fafb',
-        borderWidth: 2,
-        borderColor: '#e5e7eb',
-        borderRadius: 16,
-        paddingHorizontal: 16,
-        paddingVertical: 14,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-        elevation: 2,
-      }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View className="mb-4">
+      <View className="bg-gray-50 border-2 border-gray-200 rounded-2xl px-4 py-3.5 ">
+        <View className="flex-row items-center justify-between mb-4">
+          <View className="flex-row items-center">
             <Ionicons name="time" size={18} color="#8b5cf6" />
-            <Text style={{ marginLeft: 10, color: '#6b7280', fontSize: 15 }}>
+            <Text className="ml-2.5 text-gray-500 text-base">
               Rest Time
             </Text>
           </View>
           <View 
-            style={{ 
-              paddingHorizontal: 12,
-              paddingVertical: 6,
-              borderRadius: 20,
-              backgroundColor: getTimeColor(restTime) + '20'
+            className="px-3 py-1.5 rounded-2xl"
+            style={{
+              backgroundColor: getTimeColorHex(restTime) + '20'
             }}
           >
             <Text 
+              className="font-semibold text-sm"
               style={{ 
-                fontWeight: '600',
-                fontSize: 14,
-                color: getTimeColor(restTime)
+                color: getTimeColorHex(restTime)
               }}
             >
               {formatTime(restTime)}
@@ -81,20 +67,18 @@ export default function RestTimeSelector() {
           horizontal 
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 4 }}
-          style={{ marginHorizontal: -4 }}
+          className="-mx-1"
         >
           {quickTimeOptions.map((option, index) => (
             <TouchableOpacity
               key={option.value}
               onPress={() => setRestTime(option.value)}
+              className={cn(
+                "px-4 py-2 rounded-2xl items-center min-w-[60px]",
+                restTime === option.value ? "bg-primary" : "bg-white"
+              )}
               style={{
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                borderRadius: 20,
-                backgroundColor: restTime === option.value ? '#8b5cf6' : 'white',
                 marginRight: index < quickTimeOptions.length - 1 ? 10 : 0,
-                minWidth: 60,
-                alignItems: 'center',
                 borderWidth: restTime === option.value ? 0 : 1,
                 borderColor: '#e5e7eb',
                 shadowColor: restTime === option.value ? '#8b5cf6' : '#000',
@@ -105,11 +89,10 @@ export default function RestTimeSelector() {
               }}
             >
               <Text 
-                style={{
-                  fontSize: 13,
-                  fontWeight: restTime === option.value ? '600' : '500',
-                  color: restTime === option.value ? 'white' : '#374151'
-                }}
+                className={cn(
+                  "text-sm font-medium",
+                  restTime === option.value ? "text-white" : "text-gray-700"
+                )}
               >
                 {option.label}
               </Text>

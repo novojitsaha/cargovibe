@@ -58,10 +58,10 @@ export default function MapComponent() {
   `;
 
   return (
-    <View style={{ flex: 1 }}>
+    <View className="flex-1">
       <WebView
         source={{ html: mapHtml }}
-        style={{ flex: 1 }}
+        className="flex-1"
         javaScriptEnabled={true}
         domStorageEnabled={true}
         startInLoadingState={true}
