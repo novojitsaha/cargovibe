@@ -6,29 +6,20 @@ import RestTimeSelector from './RestTimeSelector';
 
 export default function BottomPanel() {
   return (
-    <View 
-      className="flex-1 bg-white rounded-t-3xl px-6 pt-4 pb-6"
-      style={{
-        elevation: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
-      }}
-    >
-      <View className="items-center mb-5">
-        <View className="w-12 h-1 bg-gray-300 rounded-sm" />
-      </View>
-      
-      <Text className="text-2xl font-semibold text-gray-800 text-center mb-6">
-        Set your destination
-      </Text>
-      
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <ScrollView 
         showsVerticalScrollIndicator={false}
-        className="flex-1"
-        contentContainerStyle={{ paddingBottom: 20 }}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ 
+          paddingHorizontal: 24, 
+          paddingTop: 16, 
+          paddingBottom: 24 
+        }}
       >
+        <Text className="text-2xl font-semibold text-gray-800 text-center mb-6">
+          Set your destination
+        </Text>
+        
         <DestinationInput />
         <RestTimeSelector />
         
