@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { cn } from '../utils/cn';
+import { cn } from '@/utils/cn';
 
 export default function RestTimeSelector() {
   const [restTime, setRestTime] = useState(2);

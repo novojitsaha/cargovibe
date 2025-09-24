@@ -2,9 +2,9 @@ import React, { useCallback, useMemo, useRef, useState } from "react";
 import { View } from "react-native";
 import BottomSheet from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import MapComponent from "../components/MapComponent";
-import DestinationScreen from "../components/DestinationScreen";
-import ParkingScreen from "../components/ParkingScreen";
+import { MapComponent } from "../components/layout";
+import DestinationScreen from "../screens/DestinationScreen";
+import ParkingScreen from "../screens/ParkingScreen";
 
 export default function Index() {
   const bottomSheetRef = useRef<BottomSheet>(null);

@@ -2,8 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Ionicons } from '@expo/vector-icons';
-import DestinationInput from './DestinationInput';
-import RestTimeSelector from './RestTimeSelector';
+import { DestinationInput, RestTimeSelector } from '../components/screens/destination';
 
 interface DestinationScreenProps {
   onNavigateToParking: () => void;

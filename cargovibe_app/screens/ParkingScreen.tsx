@@ -3,8 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import ParkingSpotCard from './ParkingSpotCard';
-import FilterButton from './FilterButton';
+import { ParkingSpotCard, FilterButton } from '../components/screens/parking';
 
 interface ParkingSpot {
   id: string;

@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import DestinationInput from './DestinationInput';
-import RestTimeSelector from './RestTimeSelector';
+import { DestinationInput, RestTimeSelector } from '../screens/destination';
 
 export default function BottomPanel() {
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { cn } from '../utils/cn';
+import { cn } from '@/utils/cn';
 
 const destinationsData = [
   { id: '1', name: 'Amsterdam Central Station', address: 'Stationsplein, 1012 AB Amsterdam', type: 'station' },
