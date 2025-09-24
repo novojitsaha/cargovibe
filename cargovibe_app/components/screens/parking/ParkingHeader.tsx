@@ -17,7 +17,7 @@ export default function ParkingHeader({
   const routeSummary = routeData ? getRouteSummary(routeData) : null;
 
   return (
-    <View className="bg-white rounded-b-2xl overflow-hidden">
+    <View className="bg-white rounded-2xl overflow-hidden">
       <View className="px-6 py-4 border-b border-gray-100">
         <View className="flex-row items-center justify-between mb-3">
           <TouchableOpacity

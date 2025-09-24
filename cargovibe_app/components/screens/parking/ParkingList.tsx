@@ -79,8 +79,9 @@ export default function ParkingList({
       nestedScrollEnabled
       style={{ flex: 1 }}
       contentContainerStyle={{
-        backgroundColor: '#f9fafb',
+        backgroundColor: '#f3f4f6',
         paddingHorizontal: 20,
+        paddingTop: 10,
         paddingBottom: Math.max(insets.bottom + 300, 300),
       }}
     />
