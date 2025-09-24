@@ -62,6 +62,15 @@ const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, re
         route: null,
         parkingSpots: []
       });
+    } else {
+      const route = calculateRoute(destination);
+      setRouteData(route);
+      
+      mapRef.current?.updateMap({
+        destination: destination,
+        route: route.route,
+        parkingSpots: [] // Don't show parking spots yet, just the route
+      });
     }
   }, [mapRef]);
 
@@ -70,23 +79,20 @@ const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, re
   }, []);
 
   const handleSearchParkingSpots = useCallback(() => {
-    if (!selectedDestination) return;
-
-    const route = calculateRoute(selectedDestination);
-    setRouteData(route);
+    if (!selectedDestination || !routeData) return;
 
     const maxTimeMinutes = restTime * 60;
     const spots = filterParkingSpots(mockParkingSpots, selectedDestination, maxTimeMinutes);
 
     mapRef.current?.updateMap({
       destination: selectedDestination,
-      route: route.route,
+      route: routeData.route,
       parkingSpots: spots
     });
 
     setCurrentScreen('parking');
     bottomSheetRef.current?.snapToIndex(1);
-  }, [selectedDestination, restTime, mapRef]);
+  }, [selectedDestination, routeData, restTime, mapRef]);
 
   const navigateToDestination = useCallback(() => {
     setCurrentScreen('destination');
@@ -125,6 +131,7 @@ const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, re
           restTime={restTime}
           onRestTimeChange={handleRestTimeChange}
           onSearchParkingSpots={handleSearchParkingSpots}
+          routeData={routeData}
         />
       ) : (
         <ParkingScreen 

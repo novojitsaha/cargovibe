@@ -4,6 +4,7 @@ import { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { Ionicons } from '@expo/vector-icons';
 import { DestinationInput, RestTimeSelector } from '../components/screens/destination';
 import { Location } from '../data/mockData';
+import { RouteData } from '../utils/routeUtils';
 
 interface DestinationScreenProps {
   selectedDestination: Location | null;
@@ -11,6 +12,7 @@ interface DestinationScreenProps {
   restTime: number;
   onRestTimeChange: (time: number) => void;
   onSearchParkingSpots: () => void;
+  routeData?: RouteData | null; // Add route data to props
 }
 
 export default function DestinationScreen({ 
@@ -18,17 +20,20 @@ export default function DestinationScreen({
   onDestinationSelect,
   restTime,
   onRestTimeChange,
-  onSearchParkingSpots
+  onSearchParkingSpots,
+  routeData
 }: DestinationScreenProps) {
   const handleSearchParkingSpots = () => {
-    if (!selectedDestination) {
+    if (!selectedDestination || !routeData) {
       // Maybe show an alert to select destination first
-      console.log('Please select a destination first');
+      console.log('Please select a destination first and wait for route to load');
       return;
     }
     console.log('Searching for parking spots...');
     onSearchParkingSpots();
   };
+
+  const isButtonEnabled = selectedDestination && routeData;
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -48,9 +53,9 @@ export default function DestinationScreen({
         />
         <TouchableOpacity
           className={`rounded-2xl py-4 px-6 mt-2 mb-5 flex-row items-center justify-center ${
-            selectedDestination ? 'bg-primary' : 'bg-gray-300'
+            isButtonEnabled ? 'bg-primary' : 'bg-gray-300'
           }`}
-          style={selectedDestination ? {
+          style={isButtonEnabled ? {
             shadowColor: '#8b5cf6',
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.3,
@@ -58,17 +63,17 @@ export default function DestinationScreen({
             elevation: 6,
           } : undefined}
           onPress={handleSearchParkingSpots}
-          disabled={!selectedDestination}
+          disabled={!isButtonEnabled}
         >
           <Ionicons 
             name="car" 
             size={20} 
-            color={selectedDestination ? "white" : "#9ca3af"} 
+            color={isButtonEnabled ? "white" : "#9ca3af"} 
             className="mr-2.5" 
           />
           <Text 
             className={`text-base font-semibold ${
-              selectedDestination ? 'text-white' : 'text-gray-500'
+              isButtonEnabled ? 'text-white' : 'text-gray-500'
             }`}
             style={{ letterSpacing: 0.5 }}
           >
