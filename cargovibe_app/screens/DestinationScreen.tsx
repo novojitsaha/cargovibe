@@ -52,8 +52,8 @@ export default function DestinationScreen({
           onRestTimeChange={onRestTimeChange}
         />
         <TouchableOpacity
-          className={`rounded-2xl py-4 px-6 mt-2 mb-5 flex-row items-center justify-center ${
-            isButtonEnabled ? 'bg-primary' : 'bg-gray-300'
+          className={`rounded-2xl py-4 px-6 mt-2 mb-5 flex-row items-center justify-center border ${
+            isButtonEnabled ? 'bg-primary border-primary' : 'bg-gray-200 border-gray-300'
           }`}
           style={isButtonEnabled ? {
             shadowColor: '#8b5cf6',
@@ -61,7 +61,13 @@ export default function DestinationScreen({
             shadowOpacity: 0.3,
             shadowRadius: 8,
             elevation: 6,
-          } : undefined}
+          } : {
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.05,
+            shadowRadius: 2,
+            elevation: 1,
+          }}
           onPress={handleSearchParkingSpots}
           disabled={!isButtonEnabled}
         >
@@ -73,7 +79,7 @@ export default function DestinationScreen({
           />
           <Text 
             className={`text-base font-semibold ${
-              isButtonEnabled ? 'text-white' : 'text-gray-500'
+              isButtonEnabled ? 'text-white' : 'text-gray-400'
             }`}
             style={{ letterSpacing: 0.5 }}
           >
