@@ -1,13 +1,21 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { RouteData, getRouteSummary } from '../../../utils/routeUtils';
 
 interface ParkingHeaderProps {
   onNavigateToDestination: () => void;
   spotsCount: number;
+  routeData?: RouteData | null;
 }
 
-export default function ParkingHeader({ onNavigateToDestination, spotsCount }: ParkingHeaderProps) {
+export default function ParkingHeader({ 
+  onNavigateToDestination, 
+  spotsCount, 
+  routeData 
+}: ParkingHeaderProps) {
+  const routeSummary = routeData ? getRouteSummary(routeData) : null;
+
   return (
     <View className="bg-white rounded-b-2xl overflow-hidden">
       <View className="px-6 py-4 border-b border-gray-100">
@@ -26,9 +34,35 @@ export default function ParkingHeader({ onNavigateToDestination, spotsCount }: P
             </Text>
           </View>
         </View>
+        
+        {routeSummary && (
+          <View className="bg-gray-50 rounded-xl px-4 py-3 mb-3">
+            <View className="flex-row items-center justify-between">
+              <View className="flex-1">
+                <Text className="text-gray-800 font-semibold text-base">
+                  To {routeSummary.destination}
+                </Text>
+                <Text className="text-gray-600 text-sm mt-1">
+                  {routeSummary.distance} • {routeSummary.duration}
+                </Text>
+              </View>
+              <View className="bg-primary-100 px-3 py-1.5 rounded-full">
+                <Text className="text-primary-700 text-xs font-bold">
+                  ACTIVE ROUTE
+                </Text>
+              </View>
+            </View>
+          </View>
+        )}
+        
         <View className="items-center">
           <Text className="text-2xl font-bold text-gray-900 mb-1">Parking Spots</Text>
-          <Text className="text-gray-600 text-sm">Find the perfect spot for your truck</Text>
+          <Text className="text-gray-600 text-sm">
+            {routeSummary 
+              ? `Find parking along your route to ${routeSummary.destination}`
+              : 'Find the perfect spot for your truck'
+            }
+          </Text>
         </View>
       </View>
     </View>

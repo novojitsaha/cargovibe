@@ -1,58 +1,144 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { DestinationInput, RestTimeSelector } from '../screens/destination';
+import React, { useCallback, useMemo, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import BottomSheet from '@gorhom/bottom-sheet';
+import DestinationScreen from '../../screens/DestinationScreen';
+import ParkingScreen from '../../screens/ParkingScreen';
+import { Location, ParkingSpot, mockParkingSpots } from '../../data/mockData';
+import { RouteData, calculateRoute, filterParkingSpots } from '../../utils/routeUtils';
+import { MapComponentRef } from './MapComponent';
 
-export default function BottomPanel() {
-  return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <ScrollView 
-        showsVerticalScrollIndicator={false}
-        style={{ flex: 1 }}
-        contentContainerStyle={{ 
-          paddingHorizontal: 24, 
-          paddingTop: 16, 
-          paddingBottom: 24 
-        }}
-      >
-        <Text className="text-2xl font-semibold text-gray-800 text-center mb-6">
-          Set your destination
-        </Text>
-        
-        <DestinationInput />
-        <RestTimeSelector />
-        
-        <TouchableOpacity 
-          className="bg-primary rounded-2xl py-4 px-6 mt-2 mb-5 flex-row items-center justify-center"
-          style={{
-            shadowColor: '#8b5cf6',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.3,
-            shadowRadius: 8,
-            elevation: 6,
-          }}
-          onPress={() => {
-            console.log('Searching for parking spots...');
-          }}
-        >
-          <Ionicons name="car" size={20} color="white" className="mr-2.5" />
-          <Text className="text-white text-base font-semibold" style={{ letterSpacing: 0.5 }}>
-            Search Parking Spots
-          </Text>
-        </TouchableOpacity>
-        
-        <View className="items-center mt-4">
-          <Text 
-            className="text-primary text-xl font-bold"
-            style={{ letterSpacing: 0.5 }}
-          >
-            CargoVibe
-          </Text>
-          <Text className="text-gray-500 text-sm mt-1">
-            Smart logistics for professionals
-          </Text>
-        </View>
-      </ScrollView>
-    </View>
-  );
+export interface BottomPanelRef {
+  snapToIndex: (index: number) => void;
 }
+
+interface BottomPanelProps {
+  mapRef: React.RefObject<MapComponentRef | null>;
+}
+
+const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, ref) => {
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['20%', '60%', '85%'], []);
+  
+  const [currentScreen, setCurrentScreen] = useState<'destination' | 'parking'>('destination');
+  const [selectedDestination, setSelectedDestination] = useState<Location | null>(null);
+  const [restTime, setRestTime] = useState<number>(2);
+  const [routeData, setRouteData] = useState<RouteData | null>(null);
+  
+  const baseParkingSpots = useMemo(() => {
+    if (!selectedDestination || !routeData) return [];
+    return filterParkingSpots(mockParkingSpots, selectedDestination, restTime * 60);
+  }, [selectedDestination, routeData, restTime]);
+
+  const selectedDestinationRef = useRef(selectedDestination);
+  const routeDataRef = useRef(routeData);
+  
+  selectedDestinationRef.current = selectedDestination;
+  routeDataRef.current = routeData;
+
+  useImperativeHandle(ref, () => ({
+    snapToIndex: (index: number) => {
+      bottomSheetRef.current?.snapToIndex(index);
+    }
+  }));
+
+  const handleSheetChanges = useCallback((index: number) => {
+    // Handle bottom sheet position changes if needed
+  }, []);
+
+  const handleFilteredSpotsChange = useCallback((filteredSpots: ParkingSpot[]) => {
+    mapRef.current?.updateMap({
+      destination: selectedDestinationRef.current,
+      route: routeDataRef.current?.route || null,
+      parkingSpots: filteredSpots
+    });
+  }, [mapRef]);
+
+  const handleDestinationSelect = useCallback((destination: Location | null) => {
+    setSelectedDestination(destination);
+    
+    if (!destination) {
+      setRouteData(null);
+      mapRef.current?.updateMap({
+        destination: null,
+        route: null,
+        parkingSpots: []
+      });
+    }
+  }, [mapRef]);
+
+  const handleRestTimeChange = useCallback((time: number) => {
+    setRestTime(time);
+  }, []);
+
+  const handleSearchParkingSpots = useCallback(() => {
+    if (!selectedDestination) return;
+
+    const route = calculateRoute(selectedDestination);
+    setRouteData(route);
+
+    const maxTimeMinutes = restTime * 60;
+    const spots = filterParkingSpots(mockParkingSpots, selectedDestination, maxTimeMinutes);
+
+    mapRef.current?.updateMap({
+      destination: selectedDestination,
+      route: route.route,
+      parkingSpots: spots
+    });
+
+    setCurrentScreen('parking');
+    bottomSheetRef.current?.snapToIndex(1);
+  }, [selectedDestination, restTime, mapRef]);
+
+  const navigateToDestination = useCallback(() => {
+    setCurrentScreen('destination');
+    
+    mapRef.current?.updateMap({
+      destination: selectedDestination,
+      route: selectedDestination ? routeData?.route || null : null,
+      parkingSpots: []
+    });
+    
+    bottomSheetRef.current?.snapToIndex(1);
+  }, [selectedDestination, routeData, mapRef]);
+
+  const handleReserveSpot = useCallback((spotId: string) => {
+    alert(`Spot ${spotId} reserved successfully!`);
+  }, []);
+
+  return (
+    <BottomSheet
+      ref={bottomSheetRef}
+      index={1}
+      snapPoints={snapPoints}
+      onChange={handleSheetChanges}
+      enablePanDownToClose={false}
+      enableContentPanningGesture={false}
+      handleIndicatorStyle={{
+        backgroundColor: '#d1d5db',
+        width: 48,
+        height: 4,
+      }}
+    >
+      {currentScreen === 'destination' ? (
+        <DestinationScreen 
+          selectedDestination={selectedDestination}
+          onDestinationSelect={handleDestinationSelect}
+          restTime={restTime}
+          onRestTimeChange={handleRestTimeChange}
+          onSearchParkingSpots={handleSearchParkingSpots}
+        />
+      ) : (
+        <ParkingScreen 
+          parkingSpots={baseParkingSpots}
+          onNavigateToDestination={navigateToDestination} 
+          onReserveSpot={handleReserveSpot}
+          onFilteredSpotsChange={handleFilteredSpotsChange}
+          routeData={routeData}
+        />
+      )}
+    </BottomSheet>
+  );
+});
+
+BottomPanel.displayName = 'BottomPanel';
+
+export default BottomPanel;

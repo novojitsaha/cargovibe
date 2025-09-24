@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { cn } from '@/utils/cn';
 
-export default function RestTimeSelector() {
-  const [restTime, setRestTime] = useState(2);
+interface RestTimeSelectorProps {
+  restTime: number;
+  onRestTimeChange: (time: number) => void;
+}
+
+export default function RestTimeSelector({ restTime, onRestTimeChange }: RestTimeSelectorProps) {
 
   const formatTime = (hours: number) => {
     if (hours < 1) {
@@ -72,7 +76,7 @@ export default function RestTimeSelector() {
           {quickTimeOptions.map((option, index) => (
             <TouchableOpacity
               key={option.value}
-              onPress={() => setRestTime(option.value)}
+              onPress={() => onRestTimeChange(option.value)}
               className={cn(
                 "px-4 py-2 rounded-2xl items-center min-w-[60px]",
                 restTime === option.value ? "bg-primary" : "bg-white"

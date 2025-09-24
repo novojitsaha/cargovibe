@@ -5,7 +5,6 @@ export { default as ParkingFilters } from './ParkingFilters';
 export { default as ParkingList } from './ParkingList';
 export { default as EmptyState } from './EmptyState';
 export { default as ParkingFooter } from './ParkingFooter';
-export { default as FilterInfo } from './FilterInfo';
 
 // Re-export types
 export type { FilterType } from './ParkingFilters';

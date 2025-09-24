@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { FilterButton } from './';
+import FilterButton from './FilterButton';
 
 export type FilterType = 'available' | 'free' | 'private';
 

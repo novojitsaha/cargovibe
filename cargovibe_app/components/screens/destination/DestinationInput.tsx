@@ -2,31 +2,27 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { cn } from '@/utils/cn';
+import { mockDestinations, Location } from '../../../data/mockData';
 
-const destinationsData = [
-  { id: '1', name: 'Amsterdam Central Station', address: 'Stationsplein, 1012 AB Amsterdam', type: 'station' },
-  { id: '2', name: 'Rotterdam Port', address: 'Wilhelminakade 909, 3072 AP Rotterdam', type: 'port' },
-  { id: '3', name: 'Schiphol Airport', address: 'Evert van de Beekstraat 202, 1118 CP Schiphol', type: 'airport' },
-  { id: '4', name: 'Utrecht Centraal', address: 'Stationshal 1, 3511 CE Utrecht', type: 'station' },
-  { id: '5', name: 'The Hague City Center', address: 'Spui 70, 2511 BT Den Haag', type: 'city' },
-  { id: '6', name: 'Eindhoven Technology Hub', address: 'De Lampendriessen 25, 5611 GE Eindhoven', type: 'business' },
-];
+interface DestinationInputProps {
+  selectedDestination: Location | null;
+  onDestinationSelect: (destination: Location | null) => void;
+}
 
-export default function DestinationInput() {
-  const [destination, setDestination] = useState('');
-  const [selectedDestination, setSelectedDestination] = useState<any>(null);
+export default function DestinationInput({ selectedDestination, onDestinationSelect }: DestinationInputProps) {
+  const [searchText, setSearchText] = useState('');
   const [showModal, setShowModal] = useState(false);
 
-  const filteredDestinations = destination.length > 0 
-    ? destinationsData.filter(dest =>
-        dest.name.toLowerCase().includes(destination.toLowerCase()) ||
-        dest.address.toLowerCase().includes(destination.toLowerCase())
+  const filteredDestinations = searchText.length > 0 
+    ? mockDestinations.filter(dest =>
+        dest.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        dest.address.toLowerCase().includes(searchText.toLowerCase())
       )
-    : destinationsData;
+    : mockDestinations;
 
-  const handleDestinationSelect = (dest: any) => {
-    setSelectedDestination(dest);
-    setDestination(dest.name);
+  const handleDestinationSelect = (dest: Location) => {
+    onDestinationSelect(dest);
+    setSearchText('');
     setShowModal(false);
   };
 
@@ -34,7 +30,7 @@ export default function DestinationInput() {
     setShowModal(true);
   };
 
-  const getIconForType = (type: string) => {
+  const getIconForType = (type?: string) => {
     switch (type) {
       case 'airport': return 'airplane';
       case 'port': return 'boat';
@@ -72,8 +68,7 @@ export default function DestinationInput() {
           <TouchableOpacity 
             onPress={(e) => {
               e.stopPropagation();
-              setSelectedDestination(null);
-              setDestination('');
+              onDestinationSelect(null);
             }}
             className="ml-2"
           >
@@ -107,8 +102,8 @@ export default function DestinationInput() {
             <TextInput
               placeholder="Search destinations..."
               placeholderTextColor="#9ca3af"
-              value={destination}
-              onChangeText={setDestination}
+              value={searchText}
+              onChangeText={setSearchText}
               className="flex-1 text-base text-gray-800 ml-3"
               autoFocus={true}
             />

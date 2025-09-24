@@ -1,20 +1,36 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { ParkingList, FilterType } from '../components/screens/parking';
-import { mockParkingSpots } from '../data/mockData';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { ParkingList, FilterType, ParkingSpot } from '../components/screens/parking';
+import { RouteData } from '../utils/routeUtils';
 
 interface ParkingScreenProps {
+  parkingSpots: ParkingSpot[];
   onNavigateToDestination: () => void;
+  onReserveSpot: (spotId: string) => void;
+  onFilteredSpotsChange: (filteredSpots: ParkingSpot[]) => void;
+  routeData: RouteData | null;
 }
 
-export default function ParkingScreen({ onNavigateToDestination }: ParkingScreenProps) {
+export default function ParkingScreen({ 
+  parkingSpots, 
+  onNavigateToDestination, 
+  onReserveSpot,
+  onFilteredSpotsChange,
+  routeData 
+}: ParkingScreenProps) {
   const [activeFilters, setActiveFilters] = useState<FilterType[]>([]);
+
+  useEffect(() => {
+    if (parkingSpots.length === 0) {
+      setActiveFilters([]);
+    }
+  }, [parkingSpots.length]);
 
   const filteredSpots = useMemo(() => {
     if (activeFilters.length === 0) {
-      return mockParkingSpots;
+      return parkingSpots;
     }
     
-    return mockParkingSpots.filter(spot => {
+    return parkingSpots.filter(spot => {
       return activeFilters.every(filter => {
         switch (filter) {
           case 'available':
@@ -22,28 +38,29 @@ export default function ParkingScreen({ onNavigateToDestination }: ParkingScreen
           case 'free':
             return spot.type === 'free';
           case 'private':
-            return spot.name.toLowerCase().includes('private') || spot.name.toLowerCase().includes('depot');
+            return spot.private;
           default:
             return false;
         }
       });
     });
-  }, [activeFilters]);
+  }, [parkingSpots, activeFilters]);
+
+  useEffect(() => {
+    onFilteredSpotsChange(filteredSpots);
+  }, [filteredSpots, onFilteredSpotsChange]);
 
   const toggleFilter = useCallback((filter: FilterType) => {
     setActiveFilters(prev => {
-      if (prev.includes(filter)) {
-        return prev.filter(f => f !== filter);
-      } else {
-        return [...prev, filter];
-      }
+      return prev.includes(filter) 
+        ? prev.filter(f => f !== filter)
+        : [...prev, filter];
     });
   }, []);
 
   const handleReserve = useCallback((spotId: string) => {
-    console.log('Reserving spot:', spotId);
-    // Implement reservation logic here
-  }, []);
+    onReserveSpot(spotId);
+  }, [onReserveSpot]);
 
   return (
     <ParkingList
@@ -52,6 +69,7 @@ export default function ParkingScreen({ onNavigateToDestination }: ParkingScreen
       onNavigateToDestination={onNavigateToDestination}
       onToggleFilter={toggleFilter}
       onReserveSpot={handleReserve}
+      routeData={routeData}
     />
   );
 }

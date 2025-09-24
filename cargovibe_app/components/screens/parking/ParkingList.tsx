@@ -2,21 +2,26 @@ import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ParkingSpotCard } from './';
+import ParkingSpotCard from './ParkingSpotCard';
 import ParkingHeader from './ParkingHeader';
 import ParkingFilters, { FilterType } from './ParkingFilters';
-import FilterInfo from './FilterInfo';
 import EmptyState from './EmptyState';
 import ParkingFooter from './ParkingFooter';
+import { RouteData } from '../../../utils/routeUtils';
 
 export interface ParkingSpot {
   id: string;
   name: string;
   address: string;
+  lat: number;
+  lng: number;
   distance: string;
+  timeToReach: number;
   status: 'available' | 'occupied';
   type: 'free' | 'paid';
   price?: string;
+  private: boolean;
+  routeId?: string;
 }
 
 interface ParkingListProps {
@@ -25,6 +30,7 @@ interface ParkingListProps {
   onNavigateToDestination: () => void;
   onToggleFilter: (filter: FilterType) => void;
   onReserveSpot: (spotId: string) => void;
+  routeData?: RouteData | null;
 }
 
 export default function ParkingList({ 
@@ -32,7 +38,8 @@ export default function ParkingList({
   activeFilters, 
   onNavigateToDestination, 
   onToggleFilter, 
-  onReserveSpot 
+  onReserveSpot,
+  routeData
 }: ParkingListProps) {
   const insets = useSafeAreaInsets();
 
@@ -50,17 +57,14 @@ export default function ParkingList({
       <ParkingHeader 
         onNavigateToDestination={onNavigateToDestination}
         spotsCount={spots.length}
+        routeData={routeData}
       />
       <ParkingFilters 
         activeFilters={activeFilters}
         onToggleFilter={onToggleFilter}
       />
-      <FilterInfo 
-        activeFilters={activeFilters}
-        spotsCount={spots.length}
-      />
     </View>
-  ), [spots.length, activeFilters, onNavigateToDestination, onToggleFilter]);
+  ), [spots.length, activeFilters, onNavigateToDestination, onToggleFilter, routeData]);
 
   return (
     <BottomSheetFlatList<ParkingSpot>

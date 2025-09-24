@@ -6,10 +6,15 @@ interface ParkingSpot {
   id: string;
   name: string;
   address: string;
+  lat: number;
+  lng: number;
   distance: string;
+  timeToReach: number;
   status: 'available' | 'occupied';
   type: 'free' | 'paid';
   price?: string;
+  private: boolean;
+  routeId?: string;
 }
 
 interface ParkingSpotCardProps {
