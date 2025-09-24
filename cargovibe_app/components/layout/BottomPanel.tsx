@@ -17,11 +17,13 @@ interface BottomPanelProps {
 const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, ref) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['20%', '60%', '85%'], []);
+  const snapValues = useMemo(() => [0.2, 0.6, 0.85], []);
   
   const [currentScreen, setCurrentScreen] = useState<'destination' | 'parking'>('destination');
   const [selectedDestination, setSelectedDestination] = useState<Location | null>(null);
   const [restTime, setRestTime] = useState<number>(2);
   const [routeData, setRouteData] = useState<RouteData | null>(null);
+  const [currentSnapIndex, setCurrentSnapIndex] = useState<number>(1);
   
   const baseParkingSpots = useMemo(() => {
     if (!selectedDestination || !routeData) return [];
@@ -41,16 +43,23 @@ const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, re
   }));
 
   const handleSheetChanges = useCallback((index: number) => {
-    // Handle bottom sheet position changes if needed
-  }, []);
+    setCurrentSnapIndex(index);
+    mapRef.current?.updateMap({
+      destination: selectedDestinationRef.current,
+      route: routeDataRef.current?.route || null,
+      parkingSpots: [],
+      bottomPanelHeight: snapValues[index]
+    });
+  }, [mapRef, snapValues]);
 
   const handleFilteredSpotsChange = useCallback((filteredSpots: ParkingSpot[]) => {
     mapRef.current?.updateMap({
       destination: selectedDestinationRef.current,
       route: routeDataRef.current?.route || null,
-      parkingSpots: filteredSpots
+      parkingSpots: filteredSpots,
+      bottomPanelHeight: snapValues[currentSnapIndex]
     });
-  }, [mapRef]);
+  }, [mapRef, snapValues, currentSnapIndex]);
 
   const handleDestinationSelect = useCallback((destination: Location | null) => {
     setSelectedDestination(destination);
@@ -60,7 +69,8 @@ const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, re
       mapRef.current?.updateMap({
         destination: null,
         route: null,
-        parkingSpots: []
+        parkingSpots: [],
+        bottomPanelHeight: snapValues[currentSnapIndex]
       });
     } else {
       const route = calculateRoute(destination);
@@ -69,10 +79,11 @@ const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, re
       mapRef.current?.updateMap({
         destination: destination,
         route: route.route,
-        parkingSpots: [] // Don't show parking spots yet, just the route
+        parkingSpots: [],
+        bottomPanelHeight: snapValues[currentSnapIndex]
       });
     }
-  }, [mapRef]);
+  }, [mapRef, snapValues, currentSnapIndex]);
 
   const handleRestTimeChange = useCallback((time: number) => {
     setRestTime(time);
@@ -87,12 +98,13 @@ const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, re
     mapRef.current?.updateMap({
       destination: selectedDestination,
       route: routeData.route,
-      parkingSpots: spots
+      parkingSpots: spots,
+      bottomPanelHeight: snapValues[1]
     });
 
     setCurrentScreen('parking');
     bottomSheetRef.current?.snapToIndex(1);
-  }, [selectedDestination, routeData, restTime, mapRef]);
+  }, [selectedDestination, routeData, restTime, mapRef, snapValues]);
 
   const navigateToDestination = useCallback(() => {
     setCurrentScreen('destination');
@@ -100,11 +112,12 @@ const BottomPanel = forwardRef<BottomPanelRef, BottomPanelProps>(({ mapRef }, re
     mapRef.current?.updateMap({
       destination: selectedDestination,
       route: selectedDestination ? routeData?.route || null : null,
-      parkingSpots: []
+      parkingSpots: [],
+      bottomPanelHeight: snapValues[1]
     });
     
     bottomSheetRef.current?.snapToIndex(1);
-  }, [selectedDestination, routeData, mapRef]);
+  }, [selectedDestination, routeData, mapRef, snapValues]);
 
   const handleReserveSpot = useCallback((spotId: string) => {
     alert(`Spot ${spotId} reserved successfully!`);
