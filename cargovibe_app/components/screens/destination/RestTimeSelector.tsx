@@ -71,7 +71,7 @@ export default function RestTimeSelector({ restTime, onRestTimeChange }: RestTim
           horizontal 
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 4 }}
-          className="-mx-1"
+          className="-mx-1 py-1"
         >
           {quickTimeOptions.map((option, index) => (
             <TouchableOpacity
@@ -89,7 +89,6 @@ export default function RestTimeSelector({ restTime, onRestTimeChange }: RestTim
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: restTime === option.value ? 0.3 : 0.05,
                 shadowRadius: restTime === option.value ? 4 : 2,
-                elevation: restTime === option.value ? 4 : 1,
               }}
             >
               <Text 

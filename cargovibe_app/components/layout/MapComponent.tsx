@@ -33,8 +33,21 @@ const MapComponent = forwardRef<MapComponentRef>((_, ref) => {
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <style>
-            body, html { margin: 0; padding: 0; height: 100%; }
-            #map { height: 100%; }
+            * { box-sizing: border-box; }
+            body, html { 
+                margin: 0; 
+                padding: 0; 
+                height: 100%; 
+                width: 100%;
+                overflow: hidden;
+            }
+            #map { 
+                height: 100vh; 
+                width: 100vw;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
             
             .leaflet-control-zoom {
                 margin-top: 40px !important;
@@ -257,7 +270,7 @@ const MapComponent = forwardRef<MapComponentRef>((_, ref) => {
   `, []);
 
   return (
-    <View style={{ height: '80%' }}>
+    <View style={{ height: '80%', flex: 1 }}>
       <WebView
         ref={webViewRef}
         source={{ html: mapHtml }}
@@ -265,6 +278,8 @@ const MapComponent = forwardRef<MapComponentRef>((_, ref) => {
         javaScriptEnabled={true}
         domStorageEnabled={true}
         startInLoadingState={true}
+        originWhitelist={['*']}
+        mixedContentMode="compatibility"
         onMessage={(event) => {
           console.log('Message from WebView:', event.nativeEvent.data);
         }}

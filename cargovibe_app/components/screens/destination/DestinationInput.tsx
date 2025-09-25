@@ -42,20 +42,13 @@ export default function DestinationInput({ selectedDestination, onDestinationSel
   };
 
   return (
-    <View className="mb-5">
+    <View className="mb-5 mt-2 ">
       <TouchableOpacity 
         onPress={openModal}
         className={cn(
           "flex-row items-center bg-gray-50 border-2 rounded-2xl px-4 py-4",
           selectedDestination ? "border-primary" : "border-gray-200"
         )}
-        style={{
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.05,
-          shadowRadius: 2,
-          elevation: 2,
-        }}
       >
         <Ionicons name="search" size={20} color="#6b7280" />
         <Text className={cn(

@@ -42,7 +42,7 @@ export default function DestinationScreen({
         style={{ flex: 1 }}
         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 16, paddingBottom: 24 }}
       >
-        <Text className="text-2xl font-semibold text-gray-800 text-center mb-6">Set your destination</Text>
+        <Text className="text-2xl font-semibold text-gray-800 text-center ">Set your destination</Text>
         <DestinationInput 
           selectedDestination={selectedDestination}
           onDestinationSelect={onDestinationSelect}
@@ -52,22 +52,9 @@ export default function DestinationScreen({
           onRestTimeChange={onRestTimeChange}
         />
         <TouchableOpacity
-          className={`rounded-2xl py-4 px-6 mt-2 mb-5 flex-row items-center justify-center border ${
+          className={`rounded-2xl py-4 px-6 mt-6 mb-5 flex-row items-center justify-center border ${
             isButtonEnabled ? 'bg-primary border-primary' : 'bg-gray-200 border-gray-300'
           }`}
-          style={isButtonEnabled ? {
-            shadowColor: '#8b5cf6',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.3,
-            shadowRadius: 8,
-            elevation: 6,
-          } : {
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 1 },
-            shadowOpacity: 0.05,
-            shadowRadius: 2,
-            elevation: 1,
-          }}
           onPress={handleSearchParkingSpots}
           disabled={!isButtonEnabled}
         >
@@ -81,13 +68,12 @@ export default function DestinationScreen({
             className={`text-base font-semibold ${
               isButtonEnabled ? 'text-white' : 'text-gray-400'
             }`}
-            style={{ letterSpacing: 0.5 }}
           >
             Search Parking Spots
           </Text>
         </TouchableOpacity>
         <View className="items-center mt-4">
-          <Text className="text-primary text-xl font-bold" style={{ letterSpacing: 0.5 }}>
+          <Text className="text-primary text-xl font-bold tracking-wide">
             CargoVibe
           </Text>
           <Text className="text-gray-500 text-sm mt-1">Smart logistics for professionals</Text>
