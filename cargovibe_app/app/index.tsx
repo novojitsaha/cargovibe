@@ -1,10 +1,13 @@
-import { Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+import Map from "../components/Map";
 
 export default function Index() {
+
+  
+
   return (
-    <SafeAreaView className="flex-1 justify-center items-center bg-white">
-      <Text>Edit app/index.</Text>
-    </SafeAreaView>
+    <View className="flex-1">
+      <Map  />
+    </View>
   );
 }
