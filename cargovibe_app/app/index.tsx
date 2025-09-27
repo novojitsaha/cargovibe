@@ -1,7 +1,9 @@
-import { View, Alert } from "react-native";
+import { View, Alert, Text } from "react-native";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import Map from "../components/Map";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import MyBottomSheet from "@/components/MyBottomSheet";
 
 export default function Index() {
   const [location, setLocation] = useState<{
@@ -40,13 +42,15 @@ export default function Index() {
   };
 
   useEffect(() => {
-
     requestLocationPermission();
   }, []);
 
   return (
-    <View className="flex-1">
-      <Map latitude={location?.latitude} longitude={location?.longitude} />
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View className="flex-1">
+        <Map latitude={location?.latitude} longitude={location?.longitude} />
+        <MyBottomSheet />
+      </View>
+    </GestureHandlerRootView>
   );
 }

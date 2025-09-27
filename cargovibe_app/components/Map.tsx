@@ -25,7 +25,7 @@ const Map: React.FC<MapProps> = ({
         <style>
             body { margin: 0; padding: 0; }
             #mapid { 
-                height: 80vh; 
+                height: 100vh; 
                 width: 100vw; 
             }
         </style>
