@@ -34,7 +34,9 @@ const Map: React.FC<MapProps> = ({
         <div id="mapid"></div>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
-            var mymap = L.map('mapid').setView([${latitude}, ${longitude}], ${zoom});
+            var mymap = L.map('mapid', {
+                zoomControl: false
+            }).setView([${latitude}, ${longitude}], ${zoom});
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
