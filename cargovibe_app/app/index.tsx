@@ -1,15 +1,11 @@
-import { View, Alert, Text } from "react-native";
-import { useState, useEffect } from "react";
+import Map from "@/app/components/Map";
+import MyBottomSheet from "@/app/components/MyBottomSheet";
 import * as Location from "expo-location";
-import Map from "../components/Map";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import MyBottomSheet from "@/components/MyBottomSheet";
+import React, { useEffect, useState } from "react";
+import { Alert, View } from "react-native";
 
-export default function Index() {
-  const [location, setLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
+const Index = () => {
+  const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 
   const requestLocationPermission = async () => {
     try {
@@ -24,7 +20,6 @@ export default function Index() {
         return;
       }
 
-      // Get current location
       let currentLocation = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High,
       });
@@ -46,11 +41,13 @@ export default function Index() {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <View className="flex-1">
-        <Map latitude={location?.latitude} longitude={location?.longitude} />
-        <MyBottomSheet />
-      </View>
-    </GestureHandlerRootView>
+    <View className="flex-1">
+
+      <Map latitude={location?.latitude} longitude={location?.longitude} />
+
+      <MyBottomSheet />
+    </View>
   );
-}
+};
+
+export default Index;
