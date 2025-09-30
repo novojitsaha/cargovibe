@@ -1,24 +1,35 @@
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { Keyboard } from "react-native";
 import ParkingListSheet from "../(bottomsheets)/ParkingListSheet";
 import SearchSheet from "../(bottomsheets)/SearchSheet";
 export default function MyBottomSheet() {
   const searchSheetRef = useRef<BottomSheetModal>(null);
   const parkingListSheetRef = useRef<BottomSheetModal>(null);
-  const snapPoints = ["60%"];
+
   useEffect(() => {
     searchSheetRef.current?.present();
   }, []);
 
-  const openParkingListSheet = () => {
+  const openParkingListSheet = useCallback(() => {
+    Keyboard.dismiss(); // Dismiss the keyboard first
     parkingListSheetRef.current?.present();
-  };
+  }, []);
+
+  const closeParkingListSheet = useCallback(() => {
+    parkingListSheetRef.current?.dismiss();
+  }, []);
+
+  const handleParkingSpotPress = useCallback(() => {
+
+    console.log("Parking spot pressed");
+  }, []);
 
   return (
     <>
       <BottomSheetModal
         ref={searchSheetRef}
-        snapPoints={snapPoints}
+        snapPoints={["60%"]}
         index={0}
         stackBehavior="push"
         keyboardBehavior="extend"
@@ -28,12 +39,15 @@ export default function MyBottomSheet() {
 
       <BottomSheetModal
         ref={parkingListSheetRef}
-        snapPoints={snapPoints}
+        snapPoints={["80%"]}
         index={1}
         stackBehavior="push"
         keyboardBehavior="extend"
       >
-        <ParkingListSheet />
+        <ParkingListSheet 
+          handleBackButtonPress={closeParkingListSheet}
+          handleParkingSpotPress={handleParkingSpotPress}
+        />
       </BottomSheetModal>
     </>
   );
