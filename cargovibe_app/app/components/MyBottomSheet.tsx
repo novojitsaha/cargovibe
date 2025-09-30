@@ -40,7 +40,7 @@ export default function MyBottomSheet() {
 
       <BottomSheetModal
         ref={parkingListSheetRef}
-        snapPoints={["80%"]}
+        snapPoints={["85%"]}
         index={1}
         stackBehavior="switch"
         keyboardBehavior="extend"
