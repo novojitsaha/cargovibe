@@ -1,42 +1,42 @@
 [
-    {
-        "name": "Autohof Bamberg Nord",
-        "location": "A73 Exit Bamberg Nord, 96050 Bamberg, Germany",
-        "driving_time": "10 minutes away",
-        "availability": 6,
-        "price": "€12",
-        "reservable": true
-    },
-    {
-        "name": "Autohof Hirschaid",
-        "location": "Industriestraße 4, 96114 Hirschaid, Germany",
-        "driving_time": "15 minutes away",
-        "availability": 3,
-        "price": null,
-        "reservable": false
-    },
-    {
-        "name": "Autohof Forchheim Süd",
-        "location": "A73 Exit Forchheim-Süd, 91301 Forchheim, Germany",
-        "driving_time": "22 minutes away",
-        "availability": 8,
-        "price": "€10",
-        "reservable": true
-    },
-    {
-        "name": "Autohof Greding",
-        "location": "An der Autobahn 1, 91171 Greding, Germany",
-        "driving_time": "28 minutes away",
-        "availability": 5,
-        "price": null,
-        "reservable": true
-    },
-    {
-        "name": "Autohof Feucht",
-        "location": "Moosbacher Str. 50, 90537 Feucht, Germany",
-        "driving_time": "30 minutes away",
-        "availability": 4,
-        "price": "€14",
-        "reservable": false
-    }
+  {
+    "name": "Autohof Bamberg Nord",
+    "location": "A73 Exit Bamberg Nord, 96050 Bamberg, Germany",
+    "driving_time": "10 minutes away",
+    "availability": 6,
+    "price": "€12",
+    "reservable": true
+  },
+  {
+    "name": "Autohof Hirschaid",
+    "location": "Industriestraße 4, 96114 Hirschaid, Germany",
+    "driving_time": "15 minutes away",
+    "availability": -1,
+    "price": null,
+    "reservable": false
+  },
+  {
+    "name": "Autohof Forchheim Süd",
+    "location": "A73 Exit Forchheim-Süd, 91301 Forchheim, Germany",
+    "driving_time": "22 minutes away",
+    "availability": 8,
+    "price": "€10",
+    "reservable": true
+  },
+  {
+    "name": "Autohof Greding",
+    "location": "An der Autobahn 1, 91171 Greding, Germany",
+    "driving_time": "28 minutes away",
+    "availability": 5,
+    "price": null,
+    "reservable": true
+  },
+  {
+    "name": "Autohof Feucht",
+    "location": "Moosbacher Str. 50, 90537 Feucht, Germany",
+    "driving_time": "30 minutes away",
+    "availability": 0,
+    "price": "€14",
+    "reservable": false
+  }
 ]
