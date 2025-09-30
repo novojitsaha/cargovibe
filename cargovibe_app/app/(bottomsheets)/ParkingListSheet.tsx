@@ -87,6 +87,19 @@ const ParkingListSheet = ({ handleBackButtonPress, handleParkingSpotPress }: Par
         </Text>
       </View>
 
+      {/* Filter Labels */}
+      <View className="flex-row justify-center mb-4 gap-4">
+        <TouchableOpacity className="bg-purple-200 px-4 py-2 rounded-full border border-purple-400">
+          <Text className="text-purple-800 font-medium">Available</Text>
+        </TouchableOpacity>
+        <TouchableOpacity className="bg-purple-200 px-4 py-2 rounded-full border border-purple-400">
+          <Text className="text-purple-800 font-medium">Free</Text>
+        </TouchableOpacity>
+        <TouchableOpacity className="bg-purple-200 px-4 py-2 rounded-full border border-purple-400">
+          <Text className="text-purple-800 font-medium">Private</Text>
+        </TouchableOpacity>
+      </View>
+
       <BottomSheetFlatList
         data={data}
         keyExtractor={(item: ParkingSpot) => item.name}
