@@ -29,10 +29,11 @@ export default function MyBottomSheet() {
     <>
       <BottomSheetModal
         ref={searchSheetRef}
-        snapPoints={["60%"]}
-        index={0}
-        stackBehavior="push"
+        snapPoints={["25%", "60%"]}
+        index={1}
+
         keyboardBehavior="extend"
+        enablePanDownToClose={false}
       >
         <SearchSheet handleSearchButtonPress={openParkingListSheet} />
       </BottomSheetModal>
@@ -41,8 +42,9 @@ export default function MyBottomSheet() {
         ref={parkingListSheetRef}
         snapPoints={["80%"]}
         index={1}
-        stackBehavior="push"
+        stackBehavior="switch"
         keyboardBehavior="extend"
+        enablePanDownToClose={true}
       >
         <ParkingListSheet 
           handleBackButtonPress={closeParkingListSheet}
