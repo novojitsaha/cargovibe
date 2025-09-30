@@ -46,4 +46,4 @@ app-example
 .vscode/*
 
 # project_structure
-.project_structure.txt
+project_structure.txt
