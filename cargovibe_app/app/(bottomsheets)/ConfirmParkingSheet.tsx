@@ -1,6 +1,6 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import React from "react";
-import { Alert, Platform, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
+import { Alert, Linking, Platform, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
 import ParkingSpotType from "../types/parkingSpot";
 interface ConfirmParkingSheetProps {
   parkingSpot: ParkingSpotType | undefined;
@@ -20,6 +20,18 @@ const ConfirmParkingSheet = ({
     } else {
       Alert.alert("Success", "Parking spot reserved!");
     }
+  }
+
+  const handleDirectionButtonPress = () => {
+    if (!parkingSpot?.location) {
+      Alert.alert("Missing address", "No address available for this parking spot.");
+      return;
+    }
+    const destination = encodeURIComponent(parkingSpot.location);
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
+    Linking.openURL(url).catch(() => {
+      Alert.alert("Error", "Unable to open Google Maps.");
+    });
   }
 
   
@@ -73,7 +85,7 @@ const ConfirmParkingSheet = ({
       {parkingSpot && (
         <View className="mt-6 gap-4">
           {/* Direction Button */}
-          <TouchableOpacity className="bg-primary rounded-lg py-4 px-6">
+          <TouchableOpacity className="bg-primary rounded-lg py-4 px-6" onPress={handleDirectionButtonPress}>
             <Text className="text-white text-center text-lg font-semibold">
               Direction
             </Text>
