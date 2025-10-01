@@ -1,8 +1,7 @@
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Platform, Text, ToastAndroid, TouchableOpacity, View } from "react-native";
 import ParkingSpotType from "../types/parkingSpot";
-
 interface ConfirmParkingSheetProps {
   parkingSpot: ParkingSpotType | undefined;
   // handleReserveButtotPress: () => void;
@@ -14,6 +13,16 @@ const ConfirmParkingSheet = ({
   parkingSpot,
   handleBackButtonPress,
 }: ConfirmParkingSheetProps) => {
+
+  const handleReserveButtonPress = () => {
+    if (Platform.OS === "android") {
+      ToastAndroid.show("Parking spot reserved!", ToastAndroid.SHORT);
+    } else {
+      Alert.alert("Success", "Parking spot reserved!");
+    }
+  }
+
+  
   return (
     <BottomSheetView className="mx-8 pb-12">
       {/* Header with back button */}
@@ -78,6 +87,7 @@ const ConfirmParkingSheet = ({
                 : 'bg-primary'
             }`}
             disabled={parkingSpot.reservable === false}
+            onPress={handleReserveButtonPress}
           >
             <Text className="text-white text-center text-lg font-semibold">
               Reserve
