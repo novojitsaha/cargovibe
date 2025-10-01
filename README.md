@@ -28,3 +28,8 @@ The requirements follow the MoSCoW prioritization method (Must, Should, Could, W
 
 ## Initial Wireframe
 You can find the Excalidraw read-only link [here](https://excalidraw.com/#json=Kcg1s_mZlssqpzjINbhOV,r6gY3bUJgjND7bfF0Lov0Q).
+
+
+![Wireframe Version 1](./CargoVibe_Wireframe_v1.png)
+
+
