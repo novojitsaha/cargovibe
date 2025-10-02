@@ -41,3 +41,6 @@ An architecture like this can handle ~500 concurrent connections comfortably and
 
 
 ![Proposed Architecture v1](./CargoVibe_Arch_v1.png)
+
+## YouTube Demo
+You can find the unlisted demo video [here](https://www.youtube.com/watch?v=XWjkyuGIoWE).
