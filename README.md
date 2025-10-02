@@ -32,5 +32,12 @@ You can find the Excalidraw read-only link [here](https://excalidraw.com/#json=K
 
 ![Wireframe Version 1](./CargoVibe_Wireframe_v1.png)
 
+
 ## Production Environment
+
+For CargoVibe's use case, I propose this architecture for the initial launch (with scalability in mind). This consists of a React Native Frontend App and a Golang Backend Server handling the API and database connections. Sentry will be used as the monitoring as it integrates well with both React Native applications and Golang applications. For unit and integration testing, Jest is shipped natively with React Native. For E2E testing, Detox testing framework is the standard for RN apps. In terms of DevOps, I'll integrate Github CI/CD with Expo Application Service (EAS). EAS  handles signing apps as well as pushing over the air updates for both AppStore and PlayStore. And of course, all the services inside the Virtual Machine will be Dockerized for easy deployments and future scalability. A CDN will be used for improved response times for static assets. 
+
+An architecture like this can handle ~500 concurrent connections comfortably and is therefore well suited for initial launch. To increase scalability, multiple servers are to be launched.  
+
+
 ![Proposed Architecture v1](./CargoVibe_Arch_v1.png)
