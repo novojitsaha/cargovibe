@@ -32,4 +32,5 @@ You can find the Excalidraw read-only link [here](https://excalidraw.com/#json=K
 
 ![Wireframe Version 1](./CargoVibe_Wireframe_v1.png)
 
-
+## Production Environment
+![Proposed Architecture v1](./CargoVibe_Arch_v1.png)
