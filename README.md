@@ -40,7 +40,7 @@ For CargoVibe's use case, I propose this architecture for the initial launch (wi
 An architecture like this can handle ~500 concurrent connections comfortably and is therefore well suited for initial launch. To increase scalability, multiple servers are to be launched.  
 
 
-![Proposed Architecture v1](./CargoVibe_Arch_v1.png)
+![Proposed Architecture v1](./CargoVibe_Arch_v1.1.png)
 
 ## YouTube Demo
 You can find the unlisted demo video [here](https://www.youtube.com/watch?v=XWjkyuGIoWE).
